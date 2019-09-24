@@ -1,0 +1,1 @@
+web: ./build/install/hw7/bin/hw
