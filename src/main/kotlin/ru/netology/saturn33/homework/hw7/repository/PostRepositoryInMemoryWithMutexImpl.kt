@@ -33,9 +33,10 @@ class PostRepositoryInMemoryWithMutexImpl : PostRepository {
                     copy
                 }
                 else -> {
-                    // TODO: не затирать поля, не зависящие от контента (время добавления, лайки, автора)
-                    items[index] = item
-                    item
+                    //не затирать поля, не зависящие от контента (время добавления, лайки, просмотры, автора)
+                    val copy = item.copy(created = items[index].created, likes = items[index].likes, views = items[index].views, author = items[index].author)
+                    items[index] = copy
+                    copy
                 }
             }
         }
