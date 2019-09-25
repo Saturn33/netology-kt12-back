@@ -40,7 +40,12 @@ class PostRepositoryInMemoryWithMutexImpl : PostRepository {
                 }
                 else -> {
                     //не затирать поля, не зависящие от контента (время добавления, лайки, просмотры, автора)
-                    val copy = item.copy(created = items[index].created, likes = items[index].likes, views = items[index].views, author = items[index].author)
+                    val copy = item.copy(
+                        created = items[index].created,
+                        likes = items[index].likes,
+                        views = items[index].views,
+                        author = items[index].author
+                    )
                     items[index] = copy
                     copy
                 }

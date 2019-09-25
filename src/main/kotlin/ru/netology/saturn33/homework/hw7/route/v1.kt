@@ -58,18 +58,6 @@ fun Routing.v1() {
                     views = 0
                 ) else throw ParameterConversionException("video", "YouTube URL")
                 else -> throw ParameterConversionException("postType", "PostType")
-/*
-                PostType.REPOST -> {
-                    if (PostModel.Validator.checkSource(repo, input.source)) PostModel(
-                        id = input.id,
-                        author = input.author,
-                        postType = input.postType,
-                        content = input.content,
-                        source = input.source,
-                        views = 0
-                    ) else throw ParameterConversionException("source", "PostModel")
-                }
-*/
             }
 
             val savedModel = repo.save(model)
