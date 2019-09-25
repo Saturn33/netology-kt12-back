@@ -9,6 +9,7 @@ data class PostModel(
     val author: String,
     val likes: Int = 0,
     val views: Int = 0,
+    val shares: Int = 0,
     val postType: PostType = PostType.POST,
 
     val content: String? = null,//for post, event, repost, youtube

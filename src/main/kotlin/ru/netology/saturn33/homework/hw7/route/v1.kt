@@ -115,6 +115,12 @@ fun Routing.v1() {
             } else throw ParameterConversionException("source", "PostModel")
         }
 
-        //TODO share?
+        //share
+        post("/{id}/share") {
+            val id = call.parameters["id"]?.toLongOrNull() ?: throw ParameterConversionException("id", "Long")
+            val model = repo.shareById(id) ?: throw NotFoundException()
+            val response = PostResponseDto.fromModel(model)
+            call.respond(response)
+        }
     }
 }

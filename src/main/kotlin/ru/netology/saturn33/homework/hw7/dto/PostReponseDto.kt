@@ -11,6 +11,7 @@ data class PostResponseDto(
     val author: String,
     val likes: Int,
     val views: Int,
+    val shares: Int,
     val postType: PostType = PostType.POST,
     val content: String? = null,//for post, event, repost, youtube
     val location: Location? = null,//for event
@@ -24,6 +25,7 @@ data class PostResponseDto(
             author = model.author,
             likes = model.likes,
             views = model.views,
+            shares = model.shares,
             postType = model.postType,
             content = model.content,
             location = model.location,
