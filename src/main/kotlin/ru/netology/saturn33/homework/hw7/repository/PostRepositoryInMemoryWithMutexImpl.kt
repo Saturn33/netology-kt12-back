@@ -18,9 +18,15 @@ class PostRepositoryInMemoryWithMutexImpl : PostRepository {
         }
     }
 
-    override suspend fun getById(id: Long): PostModel? {
+    override suspend fun getById(id: Long, incrementViews: Boolean): PostModel? {
         mutex.withLock {
-            return items.find { it.id == id }
+            return when (val index = items.indexOfFirst { it.id == id }) {
+                -1 -> null
+                else -> {
+                    if (incrementViews) items[index] = items[index].copy(views = items[index].views + 1)
+                    items[index]
+                }
+            }
         }
     }
 

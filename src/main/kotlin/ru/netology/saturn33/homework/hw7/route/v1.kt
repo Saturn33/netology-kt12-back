@@ -27,7 +27,7 @@ fun Routing.v1() {
         }
         get("/{id}") {
             val id = call.parameters["id"]?.toLongOrNull() ?: throw ParameterConversionException("id", "Long")
-            val model = repo.getById(id) ?: throw NotFoundException()
+            val model = repo.getById(id, true) ?: throw NotFoundException()
             val response = PostResponseDto.fromModel(model)
             call.respond(response)
         }
@@ -57,6 +57,8 @@ fun Routing.v1() {
                     video = input.video,
                     views = 0
                 ) else throw ParameterConversionException("video", "YouTube URL")
+                else -> throw ParameterConversionException("postType", "PostType")
+/*
                 PostType.REPOST -> {
                     if (PostModel.Validator.checkSource(repo, input.source)) PostModel(
                         id = input.id,
@@ -67,6 +69,7 @@ fun Routing.v1() {
                         views = 0
                     ) else throw ParameterConversionException("source", "PostModel")
                 }
+*/
             }
 
             val savedModel = repo.save(model)
@@ -77,6 +80,7 @@ fun Routing.v1() {
             val id = call.parameters["id"]?.toLongOrNull() ?: throw ParameterConversionException("id", "Long")
             if (repo.removeById(id)) call.respond("") else throw NotFoundException()
         }
+
         //likes
         post("/{id}/like") {
             val id = call.parameters["id"]?.toLongOrNull() ?: throw ParameterConversionException("id", "Long")
@@ -90,5 +94,27 @@ fun Routing.v1() {
             val response = PostResponseDto.fromModel(model)
             call.respond(response)
         }
+
+        //repost
+        post("/{id}/repost") {
+            val id = call.parameters["id"]?.toLongOrNull() ?: throw ParameterConversionException("id", "Long")
+            val input = call.receive<PostRequestDto>()
+            val validResult = PostModel.Validator.checkSource(repo, id)
+            if (validResult.first) {
+                val model = PostModel(
+                    id = input.id,
+                    author = input.author,
+                    postType = PostType.REPOST,
+                    content = input.content,
+                    source = validResult.second,
+                    views = 0
+                )
+                val savedModel = repo.save(model)
+                val response = PostResponseDto.fromModel(savedModel)
+                call.respond(response)
+            } else throw ParameterConversionException("source", "PostModel")
+        }
+
+        //TODO share?
     }
 }

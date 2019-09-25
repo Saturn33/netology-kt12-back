@@ -4,7 +4,7 @@ import ru.netology.saturn33.homework.hw7.model.PostModel
 
 interface PostRepository {
     suspend fun getAll(): List<PostModel>
-    suspend fun getById(id: Long): PostModel?
+    suspend fun getById(id: Long, incrementViews: Boolean = false): PostModel?
     suspend fun save(item: PostModel): PostModel
     suspend fun removeById(id: Long): Boolean
     suspend fun likeById(id: Long): PostModel?

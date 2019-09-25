@@ -13,7 +13,7 @@ data class PostModel(
 
     val content: String? = null,//for post, event, repost, youtube
     val location: Location? = null,//for event
-    val source: Long? = null,//for repost
+    val source: PostModel? = null,//for repost
     val video: String? = null//for youtube, val views: kotlin.Int){}, var views: kotlin.Int){}
 ) {
     object Validator {
@@ -24,10 +24,10 @@ data class PostModel(
 
         fun checkLocation(loc: Location?): Boolean = loc is Location
 
-        suspend fun checkSource(repo: PostRepository, srcId: Long?): Boolean {
-            if (srcId == null) return false
+        suspend fun checkSource(repo: PostRepository, srcId: Long?): Pair<Boolean, PostModel?> {
+            if (srcId == null) return false to null
             val model = repo.getById(srcId)
-            return model != null
+            return (model != null) to model
             //TODO добавить проверку на цикличность репостов (если давать править исходный пост, в нём можно поставить ссылку на его репост, так нельзя)
         }
     }
