@@ -1,2 +1,2 @@
 # netology-kt8-back
-https://netology-kt7.herokuapp.com/
+https://netology-kt8.herokuapp.com/
