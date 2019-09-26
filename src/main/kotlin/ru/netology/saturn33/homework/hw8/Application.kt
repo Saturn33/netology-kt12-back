@@ -1,4 +1,4 @@
-package ru.netology.saturn33.homework.hw7
+package ru.netology.saturn33.homework.hw8
 
 import io.ktor.application.Application
 import io.ktor.application.call
@@ -16,9 +16,9 @@ import io.ktor.util.KtorExperimentalAPI
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.singleton
 import org.kodein.di.ktor.KodeinFeature
-import ru.netology.saturn33.homework.hw7.repository.PostRepository
-import ru.netology.saturn33.homework.hw7.repository.PostRepositoryInMemoryWithMutexImpl
-import ru.netology.saturn33.homework.hw7.route.v1
+import ru.netology.saturn33.homework.hw8.repository.PostRepository
+import ru.netology.saturn33.homework.hw8.repository.PostRepositoryInMemoryWithMutexImpl
+import ru.netology.saturn33.homework.hw8.route.v1
 
 fun main(args: Array<String>) {
     EngineMain.main(args)

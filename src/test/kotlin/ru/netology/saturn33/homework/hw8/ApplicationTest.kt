@@ -1,4 +1,4 @@
-package ru.netology.saturn33.homework.hw7
+package ru.netology.saturn33.homework.hw8
 
 import io.ktor.http.*
 import io.ktor.server.testing.contentType

@@ -4,7 +4,7 @@ plugins {
 }
 
 application {
-    mainClassName = 'ru.netology.saturn33.homework.hw7.ApplicationKt'
+    mainClassName = 'ru.netology.saturn33.homework.hw8.ApplicationKt'
 }
 
 group 'ru.netology.saturn33.homework'

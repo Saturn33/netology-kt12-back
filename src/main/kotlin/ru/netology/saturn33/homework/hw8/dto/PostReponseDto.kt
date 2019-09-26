@@ -1,8 +1,8 @@
-package ru.netology.saturn33.homework.hw7.dto
+package ru.netology.saturn33.homework.hw8.dto
 
-import ru.netology.saturn33.homework.hw7.model.Location
-import ru.netology.saturn33.homework.hw7.model.PostModel
-import ru.netology.saturn33.homework.hw7.model.PostType
+import ru.netology.saturn33.homework.hw8.model.Location
+import ru.netology.saturn33.homework.hw8.model.PostModel
+import ru.netology.saturn33.homework.hw8.model.PostType
 import java.util.*
 
 data class PostResponseDto(

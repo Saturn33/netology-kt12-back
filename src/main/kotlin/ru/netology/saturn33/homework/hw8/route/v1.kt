@@ -1,4 +1,4 @@
-package ru.netology.saturn33.homework.hw7.route
+package ru.netology.saturn33.homework.hw8.route
 
 import io.ktor.application.call
 import io.ktor.features.NotFoundException
@@ -9,11 +9,11 @@ import io.ktor.routing.*
 import io.ktor.util.KtorExperimentalAPI
 import org.kodein.di.generic.instance
 import org.kodein.di.ktor.kodein
-import ru.netology.saturn33.homework.hw7.dto.PostRequestDto
-import ru.netology.saturn33.homework.hw7.dto.PostResponseDto
-import ru.netology.saturn33.homework.hw7.model.PostModel
-import ru.netology.saturn33.homework.hw7.model.PostType
-import ru.netology.saturn33.homework.hw7.repository.PostRepository
+import ru.netology.saturn33.homework.hw8.dto.PostRequestDto
+import ru.netology.saturn33.homework.hw8.dto.PostResponseDto
+import ru.netology.saturn33.homework.hw8.model.PostModel
+import ru.netology.saturn33.homework.hw8.model.PostType
+import ru.netology.saturn33.homework.hw8.repository.PostRepository
 
 @KtorExperimentalAPI
 fun Routing.v1() {

@@ -1,8 +1,8 @@
-package ru.netology.saturn33.homework.hw7.repository
+package ru.netology.saturn33.homework.hw8.repository
 
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import ru.netology.saturn33.homework.hw7.model.PostModel
+import ru.netology.saturn33.homework.hw8.model.PostModel
 
 class PostRepositoryInMemoryWithMutexImpl : PostRepository {
     private var nextId = 1L

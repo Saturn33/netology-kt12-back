@@ -1,1 +1,1 @@
-web: ./build/install/hw7/bin/hw7
+web: ./build/install/hw8/bin/hw8

@@ -1,6 +1,6 @@
-package ru.netology.saturn33.homework.hw7.model
+package ru.netology.saturn33.homework.hw8.model
 
-import ru.netology.saturn33.homework.hw7.repository.PostRepository
+import ru.netology.saturn33.homework.hw8.repository.PostRepository
 import java.util.*
 
 data class PostModel(

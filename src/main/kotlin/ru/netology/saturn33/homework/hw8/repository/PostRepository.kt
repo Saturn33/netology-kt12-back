@@ -1,6 +1,6 @@
-package ru.netology.saturn33.homework.hw7.repository
+package ru.netology.saturn33.homework.hw8.repository
 
-import ru.netology.saturn33.homework.hw7.model.PostModel
+import ru.netology.saturn33.homework.hw8.model.PostModel
 
 interface PostRepository {
     suspend fun getAll(): List<PostModel>
