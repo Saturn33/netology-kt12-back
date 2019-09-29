@@ -1,22 +1,20 @@
 package ru.netology.saturn33.homework.hw8.service
 
-import io.ktor.features.BadRequestException
 import io.ktor.features.UnsupportedMediaTypeException
 import io.ktor.http.ContentType
 import io.ktor.http.content.MultiPartData
 import io.ktor.http.content.PartData
 import io.ktor.http.content.forEachPart
 import io.ktor.http.content.streamProvider
-import io.ktor.util.KtorExperimentalAPI
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.netology.saturn33.homework.hw8.dto.MediaResponseDto
+import ru.netology.saturn33.homework.hw8.exception.BadRequestException
 import ru.netology.saturn33.homework.hw8.model.MediaType
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.util.*
 
-@KtorExperimentalAPI
 class FileService(private val uploadPath: String) {
     private val images = listOf(ContentType.Image.JPEG, ContentType.Image.PNG)
 

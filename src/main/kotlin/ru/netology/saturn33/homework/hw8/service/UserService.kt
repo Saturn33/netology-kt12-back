@@ -1,18 +1,16 @@
 package ru.netology.saturn33.homework.hw8.service
 
-import io.ktor.features.BadRequestException
-import io.ktor.features.NotFoundException
-import io.ktor.util.KtorExperimentalAPI
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import org.springframework.security.crypto.password.PasswordEncoder
 import ru.netology.saturn33.homework.hw8.dto.*
+import ru.netology.saturn33.homework.hw8.exception.BadRequestException
 import ru.netology.saturn33.homework.hw8.exception.InvalidPasswordException
+import ru.netology.saturn33.homework.hw8.exception.NotFoundException
 import ru.netology.saturn33.homework.hw8.exception.PasswordChangeException
 import ru.netology.saturn33.homework.hw8.model.UserModel
 import ru.netology.saturn33.homework.hw8.repository.UserRepository
 
-@KtorExperimentalAPI
 class UserService(
     private val repo: UserRepository,
     private val tokenService: JWTTokenService,

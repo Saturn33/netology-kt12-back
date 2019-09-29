@@ -25,6 +25,9 @@ import ru.netology.saturn33.homework.hw8.dto.ErrorResponseDto
 import ru.netology.saturn33.homework.hw8.exception.ConfigurationException
 import ru.netology.saturn33.homework.hw8.exception.ForbiddenException
 import ru.netology.saturn33.homework.hw8.exception.InvalidPasswordException
+import ru.netology.saturn33.homework.hw8.exception.BadRequestException
+import ru.netology.saturn33.homework.hw8.exception.NotFoundException
+import ru.netology.saturn33.homework.hw8.exception.ParameterConversionException
 import ru.netology.saturn33.homework.hw8.repository.PostRepository
 import ru.netology.saturn33.homework.hw8.repository.PostRepositoryInMemoryWithMutexImpl
 import ru.netology.saturn33.homework.hw8.repository.UserRepository

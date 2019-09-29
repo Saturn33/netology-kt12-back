@@ -3,24 +3,22 @@ package ru.netology.saturn33.homework.hw8.route
 import io.ktor.application.call
 import io.ktor.auth.authenticate
 import io.ktor.auth.authentication
-import io.ktor.features.ParameterConversionException
 import io.ktor.http.content.files
 import io.ktor.http.content.static
 import io.ktor.request.receive
 import io.ktor.request.receiveMultipart
 import io.ktor.response.respond
 import io.ktor.routing.*
-import io.ktor.util.KtorExperimentalAPI
 import ru.netology.saturn33.homework.hw8.dto.AuthenticationRequestDto
 import ru.netology.saturn33.homework.hw8.dto.PostRequestDto
 import ru.netology.saturn33.homework.hw8.dto.RegistrationRequestDto
 import ru.netology.saturn33.homework.hw8.dto.UserResponseDto
+import ru.netology.saturn33.homework.hw8.exception.ParameterConversionException
 import ru.netology.saturn33.homework.hw8.model.UserModel
 import ru.netology.saturn33.homework.hw8.service.FileService
 import ru.netology.saturn33.homework.hw8.service.PostService
 import ru.netology.saturn33.homework.hw8.service.UserService
 
-@KtorExperimentalAPI
 class RoutingV1(
     private val staticPath: String,
     private val postService: PostService,

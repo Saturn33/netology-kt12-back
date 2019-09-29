@@ -1,17 +1,15 @@
 package ru.netology.saturn33.homework.hw8.service
 
-import io.ktor.features.NotFoundException
-import io.ktor.features.ParameterConversionException
-import io.ktor.util.KtorExperimentalAPI
 import ru.netology.saturn33.homework.hw8.dto.PostRequestDto
 import ru.netology.saturn33.homework.hw8.dto.PostResponseDto
 import ru.netology.saturn33.homework.hw8.exception.ForbiddenException
+import ru.netology.saturn33.homework.hw8.exception.NotFoundException
+import ru.netology.saturn33.homework.hw8.exception.ParameterConversionException
 import ru.netology.saturn33.homework.hw8.model.PostModel
 import ru.netology.saturn33.homework.hw8.model.PostType
 import ru.netology.saturn33.homework.hw8.model.UserModel
 import ru.netology.saturn33.homework.hw8.repository.PostRepository
 
-@KtorExperimentalAPI
 class PostService(
     private val repo: PostRepository,
     private val userService: UserService,
