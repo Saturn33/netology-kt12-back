@@ -1,2 +1,4 @@
 # netology-kt8-back
-https://netology-kt8.herokuapp.com/
+Приложение: https://netology-kt8.herokuapp.com/
+
+Запросы по полному URL: https://netology-kt8.herokuapp.com/api/v1/...

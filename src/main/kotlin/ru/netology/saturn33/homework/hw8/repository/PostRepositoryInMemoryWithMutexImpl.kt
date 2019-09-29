@@ -69,7 +69,7 @@ class PostRepositoryInMemoryWithMutexImpl : PostRepository {
                     if (item.likes.contains(user.id)) {
                         item
                     } else {
-                        val copy = item.copy(likes = item.likes.toMutableSet().apply { add(user.id) })
+                        val copy = item.copy(likes = item.likes.plus(user.id))
                         items[index] = copy
                         copy
                     }
@@ -85,7 +85,7 @@ class PostRepositoryInMemoryWithMutexImpl : PostRepository {
                 else -> {
                     val item = items[index]
                     if (item.likes.contains(user.id)) {
-                        val copy = item.copy(likes = item.likes.toMutableSet().apply { remove(user.id) })
+                        val copy = item.copy(likes = item.likes.minus(user.id))
                         items[index] = copy
                         copy
                     } else {

@@ -7,7 +7,7 @@ data class PostModel(
     val id: Long,
     val created: Date = Date(),
     val author: Long,
-    val likes: MutableSet<Long> = mutableSetOf(),
+    val likes: Set<Long> = setOf(),
     val views: Int = 0,
     val shares: Int = 0,
     val postType: PostType = PostType.POST,
