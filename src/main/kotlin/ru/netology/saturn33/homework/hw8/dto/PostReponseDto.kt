@@ -18,7 +18,7 @@ data class PostResponseDto(
     val content: String? = null,//for post, event, repost, youtube
     val media: Media? = null,
     val location: Location? = null,//for event
-    val source: PostModel? = null,//for repost
+    val source: PostResponseDto? = null,//for repost
     val video: String? = null//for youtube
 ) {
     companion object {
