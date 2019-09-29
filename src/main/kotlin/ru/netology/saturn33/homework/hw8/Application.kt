@@ -5,10 +5,7 @@ import io.ktor.application.call
 import io.ktor.application.install
 import io.ktor.auth.Authentication
 import io.ktor.auth.jwt.jwt
-import io.ktor.features.ContentNegotiation
-import io.ktor.features.NotFoundException
-import io.ktor.features.ParameterConversionException
-import io.ktor.features.StatusPages
+import io.ktor.features.*
 import io.ktor.gson.gson
 import io.ktor.http.HttpStatusCode
 import io.ktor.response.respond
@@ -55,6 +52,9 @@ fun Application.module() {
         }
         exception<NotFoundException> {
             call.respond(HttpStatusCode.NotFound, ErrorResponseDto(it.message.toString()))
+        }
+        exception<BadRequestException> {
+            call.respond(HttpStatusCode.BadRequest, ErrorResponseDto(it.message.toString()))
         }
         exception<ParameterConversionException> {
             call.respond(HttpStatusCode.BadRequest, ErrorResponseDto(it.message.toString()))

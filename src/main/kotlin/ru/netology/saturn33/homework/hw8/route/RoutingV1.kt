@@ -13,6 +13,7 @@ import io.ktor.routing.*
 import io.ktor.util.KtorExperimentalAPI
 import ru.netology.saturn33.homework.hw8.dto.AuthenticationRequestDto
 import ru.netology.saturn33.homework.hw8.dto.PostRequestDto
+import ru.netology.saturn33.homework.hw8.dto.RegistrationRequestDto
 import ru.netology.saturn33.homework.hw8.dto.UserResponseDto
 import ru.netology.saturn33.homework.hw8.model.UserModel
 import ru.netology.saturn33.homework.hw8.service.FileService
@@ -35,7 +36,9 @@ class RoutingV1(
 
                 route("") {
                     post("/registration") {
-                        TODO("регистрация")
+                        val input = call.receive<RegistrationRequestDto>()
+                        val response = userService.register(input)
+                        call.respond(response)
                     }
                     post("/authentication") {
                         val input = call.receive<AuthenticationRequestDto>()

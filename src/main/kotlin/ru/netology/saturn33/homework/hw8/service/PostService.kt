@@ -95,7 +95,10 @@ class PostService(
                 postType = PostType.REPOST,
                 content = input.content,
                 media = input.media,
-                source = if (validResult.second != null) PostResponseDto.fromModel(userService.getModelById((validResult.second)!!.author)!!, validResult.second as PostModel) else null,
+                source = if (validResult.second != null) PostResponseDto.fromModel(
+                    userService.getModelById((validResult.second)!!.author)!!,
+                    validResult.second as PostModel
+                ) else null,
                 views = 0
             )
             val savedModel = repo.save(model)

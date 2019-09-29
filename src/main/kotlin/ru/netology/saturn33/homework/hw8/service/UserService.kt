@@ -1,12 +1,12 @@
 package ru.netology.saturn33.homework.hw8.service
 
+import io.ktor.features.BadRequestException
 import io.ktor.features.NotFoundException
 import io.ktor.util.KtorExperimentalAPI
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import org.springframework.security.crypto.password.PasswordEncoder
-import ru.netology.saturn33.homework.hw8.dto.AuthenticationRequestDto
-import ru.netology.saturn33.homework.hw8.dto.AuthenticationResponseDto
-import ru.netology.saturn33.homework.hw8.dto.PasswordChangeRequestDto
-import ru.netology.saturn33.homework.hw8.dto.UserResponseDto
+import ru.netology.saturn33.homework.hw8.dto.*
 import ru.netology.saturn33.homework.hw8.exception.InvalidPasswordException
 import ru.netology.saturn33.homework.hw8.exception.PasswordChangeException
 import ru.netology.saturn33.homework.hw8.model.UserModel
@@ -18,6 +18,8 @@ class UserService(
     private val tokenService: JWTTokenService,
     private val passwordEncoder: PasswordEncoder
 ) {
+    private val mutex = Mutex()
+
     suspend fun getModelById(id: Long): UserModel? {
         return repo.getById(id)
     }
@@ -28,13 +30,23 @@ class UserService(
     }
 
     suspend fun changePassword(id: Long, input: PasswordChangeRequestDto) {
-        // TODO: handle concurrency
-        val model = repo.getById(id) ?: throw NotFoundException()
-        if (!passwordEncoder.matches(input.old, model.password)) {
-            throw PasswordChangeException("Wrong password!")
+        mutex.withLock {
+            val model = repo.getById(id) ?: throw NotFoundException()
+            if (!passwordEncoder.matches(input.old, model.password)) {
+                throw PasswordChangeException("Wrong password!")
+            }
+            val copy = model.copy(password = passwordEncoder.encode(input.new))
+            repo.save(copy)
         }
-        val copy = model.copy(password = passwordEncoder.encode(input.new))
-        repo.save(copy)
+    }
+
+    suspend fun register(input: RegistrationRequestDto): AuthenticationResponseDto {
+        mutex.withLock {
+            if (repo.getByUsername(input.username) != null) throw BadRequestException("Пользователь с таким логином уже зарегистрирован")
+            val model = repo.save(UserModel(username = input.username, password = passwordEncoder.encode(input.password)))
+            val token = tokenService.generate(model.id)
+            return AuthenticationResponseDto(token)
+        }
     }
 
     suspend fun authenticate(input: AuthenticationRequestDto): AuthenticationResponseDto {

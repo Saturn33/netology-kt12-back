@@ -105,6 +105,59 @@ class ApplicationTest {
     }
 
     @Test
+    fun testReg() {
+        withTestApplication(configure) {
+            runBlocking {
+                var token: String?
+                with(handleRequest(HttpMethod.Post, "/api/v1/registration") {
+                    addHeader(HttpHeaders.ContentType, jsonContentType.toString())
+                    setBody(
+                        """
+                        {
+                            "username": "andrey",
+                            "password": "password2"
+                        }
+                    """.trimIndent()
+                    )
+                }) {
+                    assertEquals(HttpStatusCode.OK, response.status())
+                    token = JsonPath.read<String>(response.content!!, "$.token")
+                }
+                with(handleRequest(HttpMethod.Get, "/api/v1/me") {
+                    addHeader(HttpHeaders.Authorization, "Bearer $token")
+                }) {
+                    assertEquals(HttpStatusCode.OK, response.status())
+                    val username = JsonPath.read<String>(response.content!!, "$.username")
+                    assertEquals("andrey", username)
+                }
+            }
+        }
+    }
+
+    @Test
+    fun testRegDup() {
+        withTestApplication(configure) {
+            runBlocking {
+                with(handleRequest(HttpMethod.Post, "/api/v1/registration") {
+                    addHeader(HttpHeaders.ContentType, jsonContentType.toString())
+                    setBody(
+                        """
+                        {
+                            "username": "vasya",
+                            "password": "password2"
+                        }
+                    """.trimIndent()
+                    )
+                }) {
+                    assertEquals(HttpStatusCode.BadRequest, response.status())
+                    val error = JsonPath.read<String>(response.content!!, "$.error")
+                    assertEquals("Пользователь с таким логином уже зарегистрирован", error)
+                }
+            }
+        }
+    }
+
+    @Test
     fun testDeleteSomeoneElsePost() {
         withTestApplication(configure) {
             runBlocking {
