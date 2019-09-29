@@ -2,6 +2,7 @@
 /target/
 !.mvn/wrapper/maven-wrapper.jar
 .gradle
+/uploads/
 
 ### STS ###
 .apt_generated
