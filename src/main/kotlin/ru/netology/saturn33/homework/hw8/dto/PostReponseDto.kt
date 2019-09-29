@@ -26,7 +26,7 @@ data class PostResponseDto(
             id = model.id,
             created = model.created,
             author = UserResponseDto.fromModel(user),
-            likes = model.likes,
+            likes = model.likes.size,
             views = model.views,
             shares = model.shares,
             postType = model.postType,

@@ -82,12 +82,14 @@ class RoutingV1(
                         //likes
                         post("/{id}/like") {
                             val id = call.parameters["id"]?.toLongOrNull() ?: throw ParameterConversionException("id", "Long")
-                            val response = postService.like(id)
+                            val me = call.authentication.principal<UserModel>()
+                            val response = postService.like(me!!, id)
                             call.respond(response)
                         }
                         delete("/{id}/like") {
                             val id = call.parameters["id"]?.toLongOrNull() ?: throw ParameterConversionException("id", "Long")
-                            val response = postService.dislike(id)
+                            val me = call.authentication.principal<UserModel>()
+                            val response = postService.dislike(me!!, id)
                             call.respond(response)
                         }
 

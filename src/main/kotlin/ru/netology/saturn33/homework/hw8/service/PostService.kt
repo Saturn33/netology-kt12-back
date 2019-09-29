@@ -76,13 +76,13 @@ class PostService(
         repo.removeById(id)
     }
 
-    suspend fun like(id: Long): PostResponseDto {
-        val model = repo.likeById(id) ?: throw NotFoundException()
+    suspend fun like(user: UserModel, id: Long): PostResponseDto {
+        val model = repo.likeById(user, id) ?: throw NotFoundException()
         return PostResponseDto.fromModel(userService.getModelById(model.author)!!, model)
     }
 
-    suspend fun dislike(id: Long): PostResponseDto {
-        val model = repo.dislikeById(id) ?: throw NotFoundException()
+    suspend fun dislike(user: UserModel, id: Long): PostResponseDto {
+        val model = repo.dislikeById(user, id) ?: throw NotFoundException()
         return PostResponseDto.fromModel(userService.getModelById(model.author)!!, model)
     }
 

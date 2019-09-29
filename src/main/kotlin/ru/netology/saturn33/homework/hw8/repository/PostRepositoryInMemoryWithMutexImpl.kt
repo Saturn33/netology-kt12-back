@@ -3,6 +3,7 @@ package ru.netology.saturn33.homework.hw8.repository
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import ru.netology.saturn33.homework.hw8.model.PostModel
+import ru.netology.saturn33.homework.hw8.model.UserModel
 
 class PostRepositoryInMemoryWithMutexImpl : PostRepository {
     private var nextId = 1L
@@ -59,29 +60,37 @@ class PostRepositoryInMemoryWithMutexImpl : PostRepository {
         }
     }
 
-    override suspend fun likeById(id: Long): PostModel? {
+    override suspend fun likeById(user: UserModel, id: Long): PostModel? {
         mutex.withLock {
             return when (val index = items.indexOfFirst { it.id == id }) {
                 -1 -> null
                 else -> {
                     val item = items[index]
-                    val copy = item.copy(likes = item.likes + 1)
-                    items[index] = copy
-                    copy
+                    if (item.likes.contains(user.id)) {
+                        item
+                    } else {
+                        val copy = item.copy(likes = item.likes.toMutableSet().apply { add(user.id) })
+                        items[index] = copy
+                        copy
+                    }
                 }
             }
         }
     }
 
-    override suspend fun dislikeById(id: Long): PostModel? {
+    override suspend fun dislikeById(user: UserModel, id: Long): PostModel? {
         mutex.withLock {
             return when (val index = items.indexOfFirst { it.id == id }) {
                 -1 -> null
                 else -> {
                     val item = items[index]
-                    val copy = item.copy(likes = if (item.likes - 1 < 0) 0 else item.likes - 1)
-                    items[index] = copy
-                    copy
+                    if (item.likes.contains(user.id)) {
+                        val copy = item.copy(likes = item.likes.toMutableSet().apply { remove(user.id) })
+                        items[index] = copy
+                        copy
+                    } else {
+                        item
+                    }
                 }
             }
         }
