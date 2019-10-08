@@ -1,1 +1,1 @@
-web: ./build/install/hw8/bin/hw8
+web: ./build/install/hw10/bin/hw10
