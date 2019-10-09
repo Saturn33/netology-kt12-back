@@ -5,6 +5,9 @@ import ru.netology.saturn33.homework.hw10.model.UserModel
 
 interface PostRepository {
     suspend fun getAll(): List<PostModel>
+    suspend fun getLast(count: Int): List<PostModel>
+    suspend fun getAfter(id: Long): List<PostModel>
+    suspend fun getBefore(id: Long, count: Int): List<PostModel>
     suspend fun getById(id: Long, incrementViews: Boolean = false): PostModel?
     suspend fun save(item: PostModel): PostModel
     suspend fun removeById(id: Long): Boolean

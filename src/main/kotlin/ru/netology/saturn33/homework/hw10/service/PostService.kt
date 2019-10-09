@@ -19,6 +19,18 @@ class PostService(
         return repo.getAll().map { PostResponseDto.fromModel(currentUser, userService.getModelById(it.author)!!, it) }
     }
 
+    suspend fun getLast(currentUser: UserModel, count: Int): List<PostResponseDto> {
+        return repo.getLast(count).map { PostResponseDto.fromModel(currentUser, userService.getModelById(it.author)!!, it) }
+    }
+
+    suspend fun getAfter(currentUser: UserModel, postId: Long): List<PostResponseDto> {
+        return repo.getAfter(postId).map { PostResponseDto.fromModel(currentUser, userService.getModelById(it.author)!!, it) }
+    }
+
+    suspend fun getBefore(currentUser: UserModel, postId: Long, count: Int): List<PostResponseDto> {
+        return repo.getBefore(postId, count).map { PostResponseDto.fromModel(currentUser, userService.getModelById(it.author)!!, it) }
+    }
+
     suspend fun getModelById(id: Long): PostModel? {
         return repo.getById(id)
     }

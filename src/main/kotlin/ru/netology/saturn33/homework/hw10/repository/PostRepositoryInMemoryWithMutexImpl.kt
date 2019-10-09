@@ -4,6 +4,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import ru.netology.saturn33.homework.hw10.model.PostModel
 import ru.netology.saturn33.homework.hw10.model.UserModel
+import java.lang.Integer.max
 
 class PostRepositoryInMemoryWithMutexImpl : PostRepository {
     private var nextId = 1L
@@ -16,6 +17,37 @@ class PostRepositoryInMemoryWithMutexImpl : PostRepository {
                 items[ind] = post.copy(views = post.views + 1)
             }
             return items.reversed()
+        }
+    }
+
+    override suspend fun getLast(count: Int): List<PostModel> {
+        mutex.withLock {
+            val subList = items.subList(max(items.lastIndex - count + 1, 0), items.lastIndex + 1)
+            subList.forEachIndexed { ind, post ->
+                subList[ind] = post.copy(views = post.views + 1)
+            }
+            return subList.reversed()
+        }
+    }
+
+    override suspend fun getAfter(id: Long): List<PostModel> {
+        mutex.withLock {
+            val filteredList = items.filter { it.id > id } as MutableList<PostModel>
+            filteredList.forEachIndexed { ind, post ->
+                filteredList[ind] = post.copy(views = post.views + 1)
+            }
+            return filteredList.reversed()
+        }
+    }
+
+    override suspend fun getBefore(id: Long, count: Int): List<PostModel> {
+        mutex.withLock {
+            val filteredList = items.filter { it.id < id }
+            val subList = filteredList.subList(max(filteredList.lastIndex - count + 1, 0), filteredList.lastIndex + 1) as MutableList<PostModel>
+            subList.forEachIndexed { ind, post ->
+                subList[ind] = post.copy(views = post.views + 1)
+            }
+            return subList.reversed()
         }
     }
 

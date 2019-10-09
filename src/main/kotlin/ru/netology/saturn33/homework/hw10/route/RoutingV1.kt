@@ -60,6 +60,25 @@ class RoutingV1(
                             val response = postService.getAll(me!!)
                             call.respond(response)
                         }
+                        get("/recent/{count}") {
+                            val count = call.parameters["count"]?.toIntOrNull() ?: throw ParameterConversionException("count", "Int")
+                            val me = call.authentication.principal<UserModel>()
+                            val response = postService.getLast(me!!, count)
+                            call.respond(response)
+                        }
+                        get("/after/{id}") {
+                            val id = call.parameters["id"]?.toLongOrNull() ?: throw ParameterConversionException("id", "Long")
+                            val me = call.authentication.principal<UserModel>()
+                            val response = postService.getAfter(me!!, id)
+                            call.respond(response)
+                        }
+                        get("/before/{id}/{count}") {
+                            val id = call.parameters["id"]?.toLongOrNull() ?: throw ParameterConversionException("id", "Long")
+                            val count = call.parameters["count"]?.toIntOrNull() ?: throw ParameterConversionException("count", "Int")
+                            val me = call.authentication.principal<UserModel>()
+                            val response = postService.getBefore(me!!, id, count)
+                            call.respond(response)
+                        }
                         get("/{id}") {
                             val me = call.authentication.principal<UserModel>()
                             val id = call.parameters["id"]?.toLongOrNull() ?: throw ParameterConversionException("id", "Long")
