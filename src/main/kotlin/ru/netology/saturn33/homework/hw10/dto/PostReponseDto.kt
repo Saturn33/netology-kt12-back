@@ -1,7 +1,9 @@
 package ru.netology.saturn33.homework.hw10.dto
 
-import ru.netology.saturn33.homework.hw10.model.*
-import java.util.*
+import ru.netology.saturn33.homework.hw10.model.PostModel
+import ru.netology.saturn33.homework.hw10.model.PostType
+import ru.netology.saturn33.homework.hw10.model.UserModel
+import ru.netology.saturn33.homework.hw11.dto.AttachmentModel
 
 data class PostResponseDto(
     val id: Long,
@@ -15,7 +17,8 @@ data class PostResponseDto(
     val repostedByMe: Boolean,
 //    val views: Int,
 //    val shares: Int,
-    val postType: PostType = PostType.POST
+    val postType: PostType = PostType.POST,
+    val attachment: AttachmentModel? = null
 //    val media: MediaModel? = null,
 //    val location: Location? = null,//for event
 //    val video: String? = null//for youtube
@@ -31,7 +34,8 @@ data class PostResponseDto(
             repostedByMe = model.reposts.contains(currentUser.id),
             postType = model.postType,
             content = model.content,
-            source = model.source
+            source = model.source,
+            attachment = model.attachment
         )
     }
 }

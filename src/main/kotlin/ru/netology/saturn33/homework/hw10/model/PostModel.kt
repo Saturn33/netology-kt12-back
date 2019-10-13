@@ -1,6 +1,7 @@
 package ru.netology.saturn33.homework.hw10.model
 
 import ru.netology.saturn33.homework.hw10.dto.PostResponseDto
+import ru.netology.saturn33.homework.hw11.dto.AttachmentModel
 import java.util.*
 
 data class PostModel(
@@ -13,7 +14,8 @@ data class PostModel(
     val reposts: Set<Long> = setOf(),
     val views: Int = 0,
 //    val shares: Int = 0,
-    val postType: PostType = PostType.POST
+    val postType: PostType = PostType.POST,
+    val attachment: AttachmentModel? = null
 
 //    val media: MediaModel? = null,//for post, event
 //    val location: Location? = null,//for event

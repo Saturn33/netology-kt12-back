@@ -8,9 +8,9 @@ import io.ktor.http.content.forEachPart
 import io.ktor.http.content.streamProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import ru.netology.saturn33.homework.hw10.dto.MediaResponseDto
 import ru.netology.saturn33.homework.hw10.exception.BadRequestException
-import ru.netology.saturn33.homework.hw10.model.MediaType
+import ru.netology.saturn33.homework.hw11.dto.AttachmentModel
+import ru.netology.saturn33.homework.hw11.dto.AttachmentType
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.util.*
@@ -25,8 +25,8 @@ class FileService(private val uploadPath: String) {
         }
     }
 
-    suspend fun save(multipart: MultiPartData): MediaResponseDto {
-        var response: MediaResponseDto? = null
+    suspend fun save(multipart: MultiPartData): AttachmentModel {
+        var response: AttachmentModel? = null
         multipart.forEachPart { part ->
             when (part) {
                 is PartData.FileItem -> {
@@ -48,7 +48,7 @@ class FileService(private val uploadPath: String) {
                             }
                         }
                         part.dispose()
-                        response = MediaResponseDto(name, MediaType.IMAGE)
+                        response = AttachmentModel(name, AttachmentType.IMAGE)
                         return@forEachPart
                     }
                 }

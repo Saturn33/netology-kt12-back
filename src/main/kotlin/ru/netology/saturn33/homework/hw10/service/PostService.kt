@@ -51,6 +51,7 @@ class PostService(
                 author = user.id,
                 postType = input.postType,
                 content = input.content,
+                attachment = input.attachment,
 //                media = input.media,
                 views = 0
             )
