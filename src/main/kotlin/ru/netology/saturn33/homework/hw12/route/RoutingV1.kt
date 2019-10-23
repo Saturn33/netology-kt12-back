@@ -59,9 +59,9 @@ class RoutingV1(
                             //TODO remove; it's only for testing with problem #1
                             postService.sendSimplePush(me.id, "Welcome push", "Welcome, ${me.username}")
                         }
-                        delete {
-                            val me = call.authentication.principal<UserModel>()
-                            val response = userService.deleteToken(me!!)
+                        delete("/{id}") {
+                            val userId = call.parameters["id"]?.toLongOrNull() ?: throw ParameterConversionException("id", "Long")
+                            val response = userService.deleteToken(userService.getModelById(userId)!!)
                             call.respond(response)
                         }
                     }
