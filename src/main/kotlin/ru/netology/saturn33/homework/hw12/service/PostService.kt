@@ -96,6 +96,11 @@ class PostService(
 
     suspend fun like(user: UserModel, id: Long): PostResponseDto {
         val model = repo.likeById(user, id) ?: throw NotFoundException()
+        val likeText = if (model.content?.length ?: 0 > 20) model.content?.substring(0, 20) + "..." else model.content
+        if (user.id == model.author)
+            sendSimplePush(model.author, "Автолайк", "Сам себя не полайкаешь - никто не полайкает!")
+        else
+            sendSimplePush(model.author, "Your post liked", "${user.username} лайкнул ваше сообщение '${likeText}'")
         return PostResponseDto.fromModel(user, userService.getModelById(model.author)!!, model)
     }
 
