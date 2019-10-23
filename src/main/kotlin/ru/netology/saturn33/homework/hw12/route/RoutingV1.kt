@@ -9,10 +9,7 @@ import io.ktor.request.receive
 import io.ktor.request.receiveMultipart
 import io.ktor.response.respond
 import io.ktor.routing.*
-import ru.netology.saturn33.homework.hw12.dto.AuthenticationRequestDto
-import ru.netology.saturn33.homework.hw12.dto.PostRequestDto
-import ru.netology.saturn33.homework.hw12.dto.RegistrationRequestDto
-import ru.netology.saturn33.homework.hw12.dto.UserResponseDto
+import ru.netology.saturn33.homework.hw12.dto.*
 import ru.netology.saturn33.homework.hw12.exception.ParameterConversionException
 import ru.netology.saturn33.homework.hw12.model.UserModel
 import ru.netology.saturn33.homework.hw12.service.FileService
@@ -50,6 +47,17 @@ class RoutingV1(
                         get {
                             val me = call.authentication.principal<UserModel>()
                             call.respond(UserResponseDto.fromModel(me!!))
+                        }
+                    }
+
+                    route("/token") {
+                        post {
+                            val input = call.receive<PushRequestParamsDto>()
+                            val me = call.authentication.principal<UserModel>()
+                            val response = userService.saveToken(me!!, input)
+                            call.respond(response)
+                            //TODO remove; it's only for testing with problem #1
+                            postService.sendSimplePush(me.id, "Welcome push", "Welcome, ${me.username}")
                         }
                     }
 

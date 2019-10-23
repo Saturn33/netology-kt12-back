@@ -13,7 +13,8 @@ import ru.netology.saturn33.homework.hw12.repository.PostRepository
 class PostService(
     private val repo: PostRepository,
     private val userService: UserService,
-    private val validatorService: ValidatorService
+    private val validatorService: ValidatorService,
+    private val fcmService: FCMService
 ) {
     suspend fun getAll(currentUser: UserModel): List<PostResponseDto> {
         return repo.getAll().map { PostResponseDto.fromModel(currentUser, userService.getModelById(it.author)!!, it) }
@@ -125,6 +126,12 @@ class PostService(
         } else throw ParameterConversionException("source", "PostModel")
     }
 
+    suspend fun sendSimplePush(userId: Long, title: String, text: String) {
+        val model = userService.getModelById(userId)
+        if (model?.token != null) {
+            fcmService.send(userId, model.token.token, title, text)
+        }
+    }
 /*
     suspend fun share(id: Long): PostResponseDto {
         val model = repo.shareById(id) ?: throw NotFoundException("Source post not found")

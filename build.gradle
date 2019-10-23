@@ -25,6 +25,8 @@ dependencies {
     implementation "ch.qos.logback:logback-classic:1.2.3"
     implementation 'org.kodein.di:kodein-di-generic-jvm:6.3.3'
     implementation 'org.kodein.di:kodein-di-framework-ktor-server-jvm:6.3.3'
+    implementation'com.google.firebase:firebase-admin:6.10.0'
+    implementation 'org.springframework.security:spring-security-crypto'
     testImplementation "io.ktor:ktor-server-tests:1.2.4"
     testImplementation "com.jayway.jsonpath:json-path:2.4.0"
 }

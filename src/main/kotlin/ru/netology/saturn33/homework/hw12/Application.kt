@@ -5,7 +5,8 @@ import io.ktor.application.call
 import io.ktor.application.install
 import io.ktor.auth.Authentication
 import io.ktor.auth.jwt.jwt
-import io.ktor.features.*
+import io.ktor.features.ContentNegotiation
+import io.ktor.features.StatusPages
 import io.ktor.gson.gson
 import io.ktor.http.HttpStatusCode
 import io.ktor.response.respond
@@ -22,12 +23,7 @@ import org.kodein.di.ktor.kodein
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import ru.netology.saturn33.homework.hw12.dto.ErrorResponseDto
-import ru.netology.saturn33.homework.hw12.exception.ConfigurationException
-import ru.netology.saturn33.homework.hw12.exception.ForbiddenException
-import ru.netology.saturn33.homework.hw12.exception.InvalidPasswordException
-import ru.netology.saturn33.homework.hw12.exception.BadRequestException
-import ru.netology.saturn33.homework.hw12.exception.NotFoundException
-import ru.netology.saturn33.homework.hw12.exception.ParameterConversionException
+import ru.netology.saturn33.homework.hw12.exception.*
 import ru.netology.saturn33.homework.hw12.repository.PostRepository
 import ru.netology.saturn33.homework.hw12.repository.PostRepositoryInMemoryWithMutexImpl
 import ru.netology.saturn33.homework.hw12.repository.UserRepository
@@ -82,11 +78,20 @@ fun Application.module() {
         constant(tag = "jwt-expire") with (environment.config.propertyOrNull("homework.jwt.expire")?.getString()?.toLong()
             ?: 0L)
 
+        constant(tag = "fcm-db-url") with (environment.config.propertyOrNull("homework.fcm.db-url")?.getString()
+            ?: throw ConfigurationException("FCM DB Url is not specified"))
+        constant(tag = "fcm-password") with (environment.config.propertyOrNull("homework.fcm.password")?.getString()
+            ?: throw ConfigurationException("FCM Password is not specified"))
+        constant(tag = "fcm-salt") with (environment.config.propertyOrNull("homework.fcm.salt")?.getString()
+            ?: throw ConfigurationException("FCM Salt is not specified"))
+        constant(tag = "fcm-path") with (environment.config.propertyOrNull("homework.fcm.path")?.getString()
+            ?: throw ConfigurationException("FCM JSON Path is not specified"))
+
         bind<PasswordEncoder>() with eagerSingleton { BCryptPasswordEncoder() }
         bind<JWTTokenService>() with eagerSingleton { JWTTokenService(instance("jwt-secret"), instance("jwt-expire")) }
         bind<PostRepository>() with eagerSingleton { PostRepositoryInMemoryWithMutexImpl() }
         bind<UserRepository>() with eagerSingleton { UserRepositoryInMemoryWithMutexImpl() }
-        bind<PostService>() with eagerSingleton { PostService(instance(), instance(), instance()) }
+        bind<PostService>() with eagerSingleton { PostService(instance(), instance(), instance(), instance()) }
         bind<ValidatorService>() with eagerSingleton { ValidatorService() }
         bind<FileService>() with eagerSingleton { FileService(instance("upload-dir")) }
         bind<UserService>() with eagerSingleton {
@@ -96,6 +101,9 @@ fun Application.module() {
                     this@apply.save("petya", "password")
                 }
             }
+        }
+        bind<FCMService>() with eagerSingleton {
+            FCMService(instance(tag = "fcm-db-url"), instance(tag = "fcm-password"), instance(tag = "fcm-salt"), instance(tag = "fcm-path"))
         }
         bind<RoutingV1>() with eagerSingleton { RoutingV1(instance("upload-dir"), instance(), instance(), instance()) }
     }

@@ -8,6 +8,7 @@ import ru.netology.saturn33.homework.hw12.exception.BadRequestException
 import ru.netology.saturn33.homework.hw12.exception.InvalidPasswordException
 import ru.netology.saturn33.homework.hw12.exception.NotFoundException
 import ru.netology.saturn33.homework.hw12.exception.PasswordChangeException
+import ru.netology.saturn33.homework.hw12.model.PushToken
 import ru.netology.saturn33.homework.hw12.model.UserModel
 import ru.netology.saturn33.homework.hw12.repository.UserRepository
 
@@ -60,5 +61,12 @@ class UserService(
     suspend fun save(username: String, password: String) {
         repo.save(UserModel(username = username, password = passwordEncoder.encode(password)))
         return
+    }
+
+    suspend fun saveToken(user: UserModel, input: PushRequestParamsDto) {
+        mutex.withLock {
+            val copy = user.copy(token = PushToken(input.token))
+            repo.save(copy)
+        }
     }
 }
