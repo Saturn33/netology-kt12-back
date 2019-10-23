@@ -69,4 +69,11 @@ class UserService(
             repo.save(copy)
         }
     }
+
+    suspend fun deleteToken(user: UserModel) {
+        mutex.withLock {
+            val copy = user.copy(token = null)
+            repo.save(copy)
+        }
+    }
 }
